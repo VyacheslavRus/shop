@@ -11,7 +11,7 @@ const mainRoutes = [
   },
   {
     name: "Products",
-    path: "/Products",
+    path: "/products",
     exact: false,
     component: lazy(() =>
       import("../pages/ProductsPage" /*webpackChunkName:'ProductsPage'*/)
@@ -19,19 +19,19 @@ const mainRoutes = [
   },
   {
     name: "Admin",
-    path: "/Admin",
+    path: "/admin",
     exact: false,
     component: lazy(() => import("../pages/AdminPage")),
   },
   {
-    name: "Registation",
-    path: "/Registation",
+    name: "Registration",
+    path: "/registration",
     exact: true,
     component: lazy(() => import("../pages/AuthPage")),
   },
   {
     name: "Login",
-    path: "/Login",
+    path: "/login",
     exact: true,
     component: lazy(() => import("../pages/AuthPage")),
   },
