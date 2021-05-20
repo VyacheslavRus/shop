@@ -1,50 +1,37 @@
-import axios from "axios";
 import React, { Component } from "react";
-import {
-  addProduct,
-  deleteProduct,
-  getAllProducts,
-} from "../../redux/products/productsAction";
 import ProductsForm from "./productsForm/ProductsForm";
 import ProductsList from "./productsList/ProductsList";
 import { connect } from "react-redux";
+import {
+  errorProductsSelector,
+  getProductsSelector,
+  loaderProductsSelector,
+} from "../../redux/products/productsSelector";
+import {
+  addAllProductsOperation,
+  addProductOperation,
+  deleteProductOperations,
+} from "../../redux/products/productsOperations";
 
 class Products extends Component {
   async componentDidMount() {
-    try {
-      const response = await axios.get(
-        `https://shop-a2177-default-rtdb.firebaseio.com/cars.json`
-      );
-
-      if (response.data) {
-        const cars = Object.keys(response.data).map((key) => ({
-          ...response.data[key],
-          id: key,
-        }));
-        this.props.getAllProducts(cars);
-        // this.setState({ autoCars: cars });
-      } else return;
-    } catch (error) {}
+    this.props.addAllProductsOperation();
   }
 
   addCar = async (car) => {
-    const respons = await axios.post(
-      `https://shop-a2177-default-rtdb.firebaseio.com/cars.json`,
-      car
-    );
-    this.props.addProduct({ ...car, id: respons.data.name });
+    this.props.addProductOperation(car);
   };
 
   deleteCar = async (id) => {
-    await axios.delete(
-      `https://shop-a2177-default-rtdb.firebaseio.com/cars/${id}.json`
-    );
-    this.props.deleteProduct(id);
+    this.props.deleteProductOperations(id);
   };
 
   render() {
+    console.log(this.props.products);
     return (
       <>
+        {this.props.error && <h2>{this.props.error}</h2>}
+        {this.props.isLoading && <h2>Loading</h2>}
         <h2>Продукты</h2>
         <ProductsForm addCar={this.addCar} />
         <ProductsList
@@ -56,10 +43,16 @@ class Products extends Component {
   }
 }
 
-const mstp = (state) => ({
-  products: state.products,
+const mapStateToProps = (state) => ({
+  products: getProductsSelector(state),
+  isLoading: loaderProductsSelector(state),
+  error: errorProductsSelector(state),
 });
 
-export default connect(mstp, { addProduct, deleteProduct, getAllProducts })(
-  Products
-);
+const mapDispatchToProps = {
+  addAllProductsOperation,
+  addProductOperation,
+  deleteProductOperations,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

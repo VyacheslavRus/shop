@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import { ProductsFormStyled } from "./ProductsFormStyled";
 
 class ProductsForm extends Component {
   state = {
     name: "",
     model: "",
-    colors: ['grey'],
+    colors: ["grey"],
     price: "",
   };
 
@@ -14,7 +15,7 @@ class ProductsForm extends Component {
     this.setState({
       name: "",
       model: "",
-      colors: ['grey'],
+      colors: ["grey"],
       price: "",
     });
   };
@@ -25,36 +26,38 @@ class ProductsForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.onHandleSubmit}>
-        <label>
-          Name:
-          <input
-            name="name"
-            type="text"
-            onChange={this.onHandleChange}
-            value={this.state.name}
-          />
-        </label>
-        <label>
-          Model:
-          <input
-            name="model"
-            type="text"
-            onChange={this.onHandleChange}
-            value={this.state.model}
-          />
-        </label>
-        <label>
-          Price:
-          <input
-            name="price"
-            type="text"
-            onChange={this.onHandleChange}
-            value={this.state.price}
-          />
-        </label>
-        <button type="submit">Save</button>
-      </form>
+      <ProductsFormStyled>
+        <form onSubmit={this.onHandleSubmit}>
+          <label>
+            Name:
+            <input
+              name="name"
+              type="text"
+              onChange={this.onHandleChange}
+              value={this.state.name}
+            />
+          </label>
+          <label>
+            Model:
+            <input
+              name="model"
+              type="text"
+              onChange={this.onHandleChange}
+              value={this.state.model}
+            />
+          </label>
+          <label>
+            Price:
+            <input
+              name="price"
+              type="text"
+              onChange={this.onHandleChange}
+              value={this.state.price}
+            />
+          </label>
+          <button type="submit">Save</button>
+        </form>
+      </ProductsFormStyled>
     );
   }
 }

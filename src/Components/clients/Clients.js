@@ -68,6 +68,7 @@ class Clients extends Component {
       <>
         {this.props.error && <h2>{this.props.error}</h2>}
         {this.props.isLoading && <h2>Loading</h2>}
+        <h2>Клиенты</h2>
         <ClientsForm addClient={this.addClient} />
         <ClientsFilter filter={this.state.filter} setFilter={this.setFilter} />
         <ClientList

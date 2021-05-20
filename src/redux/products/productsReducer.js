@@ -1,12 +1,34 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { addProduct, deleteProduct, getAllProducts } from "./productsAction";
+import { combineReducers, createReducer } from "@reduxjs/toolkit";
+import {
+  addProduct,
+  deleteProduct,
+  getAllProducts,
+  resetError,
+  setError,
+  setProductLoading,
+} from "./productsAction";
 
-const productsReducer = createReducer([], {
+const itemsProductsReducer = createReducer([], {
   [getAllProducts]: (_, { payload }) => payload,
   [addProduct]: (state, { payload }) => [...state, payload],
   [deleteProduct]: (state, { payload }) => [
     ...state.filter((product) => product.id !== payload),
   ],
+});
+
+const productsLoaderReducer = createReducer(false, {
+  [setProductLoading]: (state) => !state,
+});
+
+const productsErrorReducer = createReducer(false, {
+  [setError]: (_, { payload }) => payload,
+  [resetError]: () => "",
+});
+
+const productsReducer = combineReducers({
+  items: itemsProductsReducer,
+  isLoading: productsLoaderReducer,
+  error: productsErrorReducer,
 });
 
 export default productsReducer;

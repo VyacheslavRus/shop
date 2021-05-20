@@ -13,7 +13,6 @@ const addClientOperation = (client) => async (dispatch, getState) => {
   if (clients.some((item) => item.clientName.includes(client.clientName))) {
     dispatch(setError("Client xxx already exist"));
   }
-
   dispatch(setClientLoading());
   try {
     const { data } = await axios.post(

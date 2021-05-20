@@ -1,4 +1,3 @@
-import { exact } from "prop-types";
 import React, { Suspense } from "react";
 
 import { NavLink, Switch, Route } from "react-router-dom";

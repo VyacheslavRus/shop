@@ -8,7 +8,8 @@ import {
   registerSuccess,
 } from "./authActions";
 
-const API_KEY = "AIzaSyChRQ3_EOE1aW61N8QpFGo2_Lolxy4DTrw";
+// const API_KEY = "AIzaSyChRQ3_EOE1aW61N8QpFGo2_Lolxy4DTrw";
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 export const registerOperation = (user) => async (dispatch) => {
   dispatch(registerRequest());
