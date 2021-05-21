@@ -6,15 +6,23 @@ import {
   loginOperation,
   registerOperation,
 } from "../../redux/auth/authOperations";
+import schema from "./validation/validator";
 
 class AuthForm extends Component {
   state = {};
   render() {
     return (
       <div>
-        <h1>Any place in your app!</h1>
+        <h1>
+          Any place in your app!
+          {this.props.location.pathname === "/registration"
+            ? "Registeration"
+            : "Login"}
+        </h1>
+
         <Formik
           initialValues={{ email: "", password: "" }}
+          validationSchema={schema}
           validate={(values) => {
             const errors = {};
             if (!values.email) {
@@ -40,6 +48,9 @@ class AuthForm extends Component {
               <ErrorMessage name="password" component="div" />
               <button type="submit" disabled={isSubmitting}>
                 Submit
+                {this.props.location.pathname === "/registration"
+                  ? "register"
+                  : "login"}
               </button>
             </Form>
           )}
