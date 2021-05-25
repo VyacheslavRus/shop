@@ -20,6 +20,13 @@ export const registerOperation = (user) => async (dispatch) => {
     );
 
     dispatch(registerSuccess(data));
+    axios.post(
+      `https://shop-a2177-default-rtdb.firebaseio.com/users/${data.localId}.json?auth=${data.idToken}`,
+      {
+        email: user.email,
+        role: "user",
+      }
+    );
   } catch (error) {
     console.dir(error);
     dispatch(registerError(error.response.data.error.message));

@@ -16,7 +16,9 @@ const addClientOperation = (client) => async (dispatch, getState) => {
   dispatch(setClientLoading());
   try {
     const { data } = await axios.post(
-      `https://shop-a2177-default-rtdb.firebaseio.com/clients.json`,
+      `https://shop-a2177-default-rtdb.firebaseio.com/clients.json?auth=${
+        getState().auth.tokens.idToken
+      }`,
       client
     );
     dispatch(addClient({ ...client, id: data.name }));
@@ -28,12 +30,14 @@ const addClientOperation = (client) => async (dispatch, getState) => {
   }
 };
 
-const deleteClientOperation = (id) => async (dispatch) => {
+const deleteClientOperation = (id) => async (dispatch, getState) => {
   dispatch(setClientLoading());
 
   try {
     await axios.delete(
-      `https://shop-a2177-default-rtdb.firebaseio.com/clients/${id}.json`
+      `https://shop-a2177-default-rtdb.firebaseio.com/clients/${id}.json?auth=${
+        getState().auth.tokens.idToken
+      }`
     );
     dispatch(deleteClient(id));
   } catch (error) {
@@ -42,12 +46,14 @@ const deleteClientOperation = (id) => async (dispatch) => {
   }
 };
 
-const getAllClientsOperation = () => async (dispatch) => {
+const getAllClientsOperation = () => async (dispatch, getState) => {
   dispatch(setClientLoading());
 
   try {
     const { data } = await axios.get(
-      `https://shop-a2177-default-rtdb.firebaseio.com/clients.json`
+      `https://shop-a2177-default-rtdb.firebaseio.com/clients.json?auth=${
+        getState().auth.tokens.idToken
+      }`
     );
     if (data) {
       const clients = Object.keys(data).map((key) => ({

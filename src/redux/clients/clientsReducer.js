@@ -6,6 +6,7 @@ import {
   setClientLoading,
   setError,
   resetError,
+  setFilter,
 } from "./clientsAction";
 
 const itemsReducer = createReducer([], {
@@ -25,10 +26,15 @@ const clientErrorReducer = createReducer("", {
   [resetError]: () => "",
 });
 
+const filterReducer = createReducer("", {
+  [setFilter]: (_, { payload }) => payload,
+});
+
 const clientReducer = combineReducers({
   items: itemsReducer,
   isLoading: clientLoaderReducer,
   error: clientErrorReducer,
+  filter: filterReducer,
 });
 
 export default clientReducer;

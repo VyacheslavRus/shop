@@ -6,6 +6,7 @@ export const getAllClients = createAction("clients/getAllClients");
 export const setClientLoading = createAction("clients/setClientLoading");
 export const setError = createAction("clients/setError");
 export const resetError = createAction("clients/resetError");
+export const setFilter = createAction("clients/setFilter");
 
 // export const addClient = (client) => ({
 //   type: "addClient",

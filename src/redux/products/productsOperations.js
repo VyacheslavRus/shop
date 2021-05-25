@@ -38,9 +38,12 @@ export const addProductOperation = (car) => async (dispatch, getState) => {
     dispatch(setError("Client xxxyyyy already exist"));
   }
   dispatch(setProductLoading());
+  // axios.defaults.headers.common["Authorization"] = getState().auth.tokens.idToken;
   try {
     const { data } = await axios.post(
-      `https://shop-a2177-default-rtdb.firebaseio.com/cars.json`,
+      `https://shop-a2177-default-rtdb.firebaseio.com/cars.json?auth=${
+        getState().auth.tokens.idToken
+      }`,
       car
     );
     dispatch(addProduct({ ...car, id: data.name }));
@@ -58,7 +61,9 @@ export const deleteProductOperations = (id) => async (dispatch, getState) => {
   dispatch(setProductLoading());
   try {
     await axios.delete(
-      `https://shop-a2177-default-rtdb.firebaseio.com/cars/${id}.json`
+      `https://shop-a2177-default-rtdb.firebaseio.com/cars/${id}.json?auth=${
+        getState().auth.tokens.idToken
+      }`
     );
     dispatch(deleteProduct(id));
   } catch (error) {

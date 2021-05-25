@@ -1,68 +1,116 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router";
 import {
   loginOperation,
   registerOperation,
 } from "../../redux/auth/authOperations";
 import schema from "./validation/validator";
 
-class AuthForm extends Component {
-  state = {};
-  render() {
-    return (
-      <div>
-        <h1>
-          Any place in your app!
-          {this.props.location.pathname === "/registration"
-            ? "Registeration"
-            : "Login"}
-        </h1>
+const AuthForm = () => {
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          validationSchema={schema}
-          validate={(values) => {
-            const errors = {};
-            if (!values.email) {
-              errors.email = "Required";
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
-              errors.email = "Invalid email address";
-            }
-            return errors;
-          }}
-          onSubmit={(values) => {
-            this.props.location.pathname === "/registration"
-              ? this.props.registerOperation(values)
-              : this.props.loginOperation(values);
-          }}
-        >
-          {({ isSubmitting }) => (
-            <Form>
-              <Field type="email" name="email" />
-              <ErrorMessage name="email" component="div" />
-              <Field type="password" name="password" />
-              <ErrorMessage name="password" component="div" />
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-                {this.props.location.pathname === "/registration"
-                  ? "register"
-                  : "login"}
-              </button>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <h1>
+        Any place in your app!
+        {location.pathname === "/registration" ? "Registeration" : "Login"}
+      </h1>
 
-export default connect(null, { registerOperation, loginOperation })(
-  withRouter(AuthForm)
-);
+      <Formik
+        initialValues={{ email: "", password: "" }}
+        validationSchema={schema}
+        validate={(values) => {
+          const errors = {};
+          if (!values.email) {
+            errors.email = "Required";
+          } else if (
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+          ) {
+            errors.email = "Invalid email address";
+          }
+          return errors;
+        }}
+        onSubmit={(values) => {
+          location.pathname === "/registration"
+            ? dispatch(registerOperation(values))
+            : dispatch(loginOperation(values));
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <Field type="email" name="email" />
+            <ErrorMessage name="email" component="div" />
+            <Field type="password" name="password" />
+            <ErrorMessage name="password" component="div" />
+            <button type="submit" disabled={isSubmitting}>
+              {location.pathname === "/registration" ? "register" : "login"}
+            </button>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
+
+export default AuthForm;
+
+// class AuthForm extends Component {
+//   state = {};
+//   render() {
+//     return (
+//       <div>
+//         <h1>
+//           Any place in your app!
+//           {this.props.location.pathname === "/registration"
+//             ? "Registeration"
+//             : "Login"}
+//         </h1>
+
+//         <Formik
+//           initialValues={{ email: "", password: "" }}
+//           validationSchema={schema}
+//           validate={(values) => {
+//             const errors = {};
+//             if (!values.email) {
+//               errors.email = "Required";
+//             } else if (
+//               !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+//             ) {
+//               errors.email = "Invalid email address";
+//             }
+//             return errors;
+//           }}
+//           onSubmit={(values) => {
+//             this.props.location.pathname === "/registration"
+//               ? this.props.registerOperation(values)
+//               : this.props.loginOperation(values);
+//           }}
+//         >
+//           {({ isSubmitting }) => (
+//             <Form>
+//               <Field type="email" name="email" />
+//               <ErrorMessage name="email" component="div" />
+//               <Field type="password" name="password" />
+//               <ErrorMessage name="password" component="div" />
+//               <button type="submit" disabled={isSubmitting}>
+//                 {this.props.location.pathname === "/registration"
+//                   ? "register"
+//                   : "login"}
+//               </button>
+//             </Form>
+//           )}
+//         </Formik>
+//       </div>
+//     );
+//   }
+// }
+
+// export default connect(null, { registerOperation, loginOperation })(
+//   withRouter(AuthForm)
+// );
 
 // class AuthForm extends Component {
 //   state = {
